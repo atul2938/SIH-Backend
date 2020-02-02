@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<style>
+.button {
+  background-color: white;
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+border-radius: 12px;
+
+}
+
+body {
+  	background-color: #404FA2;
+  	min-height: 50px;
+  }
+
+div {
+  width: 800px;
+  border: 15px black;
+  padding: 50px;
+  align-self: center;
+}
+ 
+form {
+	font-size: 20px;
+	color: white;
+	text-align: left;
+	padding-left: 610px;
+}
+
+
+
+p{
+	font-size: 30px;
+	color: white;
+	text-align: center;
+}
+
+  	h1{text-align: center;
+  	   color: white;
+       min-height: 50px;
+       padding-bottom: 10px;
+    }
+
+
+  </style>
+
+    <meta charset="utf-8">
+    <title>Report a Problem</title>
+  </head>
+  <body>
+    <h1><br>Airport Maintenance Services </h1>
+    <p><br>Report an Issue</p>
+    <IMG STYLE="position:absolute; TOP:40px; LEFT:340px; WIDTH:100px; HEIGHT:120px" SRC="AMSlogo-05.png">
+
+    <form>
+    Details: <input id="id1" type="text" name="other"><br><br>
+  	<button class="button" onclick="myFunction()">Submit</button>
+    <!-- <button onclick="myFunction()"></button> -->
+
+    <script>
+
+    function getParameter()
+    {
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+          vars[key] = value;
+      });
+      return vars;
+
+    }
+
+
+    var oldParams=getParameter();
+    // console.log(oldParams);
+
+    function myFunction() {
+
+      var x= document.getElementById("id1").value;
+      var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/reportdata');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('itemid='+oldParams["id"]+"&other="+x);
+
+            alert("Successfully Submitted");  
+    }
+    </script>
+  <!-- <input type="submit" value="Submit"> -->
+  </form>
+  </body>
+</html>

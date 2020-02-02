@@ -1,0 +1,167 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<style>
+.form {
+    text-align: justify;
+}
+</style>
+</head>
+<body>
+
+<h2>HTML Forms</h2>
+
+<div class="form">
+	<form action="/action_page.php">
+	  Email-id:
+	  <input type="text" name="emailid">
+	  <br>
+	  S/N:
+	  <input type="text" name="sn">
+	  <br>
+	  DOI:
+	  <input type="text" name="doi">
+	  <br>
+	  Last Repaired:
+	  <input type="text" name="lastrepaired">
+	  <br>
+	  Next Periodic Repair:
+	  <input type="text" name="nextperiodicrepair">
+	  <br>
+	  Logs:
+	  <input type="text" name="logs">
+	  <br>
+	  Current issues:
+	  <input type="text" name="currentissues">
+	  <br>
+	  Name:
+	  <input type="text" name="name">
+	  <br>
+	  <br>
+	  <input type="submit" value="Submit">
+	</form> 
+</div>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<style>
+
+.wrapper {
+    text-align: right;
+}
+
+.button {
+  background-color: white;
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+
+}
+
+body {
+  	background-color: #404FA2;
+  	min-height: 50px;
+}
+
+div {
+  width: 800px;
+  border: 15px black;
+  padding: 50px;
+  align-self: center;
+}
+ 
+form {
+	font-size: 20px;
+	color: white;
+	text-align: left;
+	padding-left: 610px;
+}
+
+
+
+p{
+	font-size: 30px;
+	color: white;
+	text-align: center;
+}
+
+  	h1{text-align: center;
+  	   color: white;
+       min-height: 50px;
+       padding-bottom: 10px;
+    }
+
+
+  </style>
+
+    <meta charset="utf-8">
+    <title>Report a Problem</title>
+  </head>
+  <body>
+    <h1><br>Airport Maintenance Services </h1>
+    <p><br>Report an Issue</p>
+    <IMG STYLE="position:absolute; TOP:40px; LEFT:340px; WIDTH:100px; HEIGHT:120px" SRC="AMSlogo-05.png">
+
+    <form>
+    <form>
+	  Email-id:
+	  <input type="text" id="id1" name="emailid">
+	  <br>
+	  S/N:
+	  <input type="text" id="id2" name="sn">
+	  <br>
+	  Last Repaired:
+	  <input type="text" id="id4" name="lastrepaired">
+	  <br>
+	  Next Periodic Repair:
+	  <input type="text" id="id5" name="nextperiodicrepair">
+	  <br>
+	  Logs:
+	  <input type="text" id="id6" name="logs">
+	  <br>
+	  Name:
+	  <input type="text" id="id7" name="name">
+	  <br>
+	  <br>
+	</form> 
+	<div class="wrapper">
+  	<button class="button" onclick="myFunction()">Submit</button>
+  	</div>
+    <!-- <button onclick="myFunction()"></button> -->
+
+    <script>
+
+    
+    function myFunction() {
+
+      var x1= document.getElementById("id1").value;
+   	var x2= document.getElementById("id2").value;
+   	var x3= document.getElementById("id3").value;
+   	var x4= document.getElementById("id4").value;
+   	var x5= document.getElementById("id5").value;
+   	var x6= document.getElementById("id6").value;
+   	var x7= document.getElementById("id7").value;
+
+      var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/insertitem');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('emailid='+x1+"&sn="+x2+"&lastrepaired="+x4+"&nextperiodicrepair="+x5+"&logs="+x6+"&name="+x7);
+
+            alert("Successfully Submitted");  
+    }
+    </script>
+  </form>
+  </body>
+</html>
