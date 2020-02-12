@@ -20,6 +20,10 @@ app.get("/report", function (req, res) {
 
 });
 
+app.get("/insertpage", function (req, res) {
+	res.sendFile(__dirname+"/forms.html");
+
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -177,7 +181,7 @@ let ReportData= function ReportData(params,client){
 
 
 
-app.get("/insertitem", function (req, res) {
+app.post("/insertitem", function (req, res) {
 
 	res.header("Set-Cookie", "HttpOnly;SameSite=Strict");
 	res.header("Access-Control-Allow-Origin", "*");
@@ -190,9 +194,10 @@ app.get("/insertitem", function (req, res) {
 	useraccount=req.body.emailid.trim();
 	params['sn']= req.body.sn.trim();
 	params['doi']= new Date();
-	params['lastrepaired']= req.body.lastrepaired.trim();
+	params['lastrepaired']= "";
 	params['nextperiodicrepair']= req.body.nextperiodicrepair.trim();
-	params['logs']= req.body.logs.trim();
+	params['logs']= [];
+	params['currentissues']= [];
 	params['name']= req.body.name.trim();
 
 	// useraccount= req.query.emailid.trim();
@@ -229,7 +234,7 @@ app.get("/insertitem", function (req, res) {
 
 let SendMail= function SendMail(toemailid,itemid,itemname)
 {
-	var mylink="http://localhost:8080/report?id="+itemid+"&size=250x250"
+	var mylink="http://192.168.58.77:8080/report?id="+itemid+"&size=250x250"
 	var mailOptions = {
 		from: myID,
 		to: toemailid,
@@ -359,21 +364,21 @@ let InsertLog= function InsertLog(params,client){
 
 
 
-app.get("/resolveissues", function (req, res) {
+app.post("/resolveissues", function (req, res) {
 
 	res.header("Set-Cookie", "HttpOnly;SameSite=Strict");
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 
+	params={};
 
 	//post parameters
-	// useraccount=req.body.emailid.trim();
-	// params['sn']= req.body.sn.trim();
-
-	params={};
-	params["emailid"]= req.query.emailid.trim();
-	params["itemid"]= req.query.itemid.trim();
+	params["emailid"]=req.body.emailid.trim();
+	params["itemid"]= req.body.itemid.trim();
+	params["report"]= req.body.report.trim();
+	// params["emailid"]= req.query.emailid.trim();
+	// params["itemid"]= req.query.itemid.trim();
 
 
 	connectDB(function (err, client) {
@@ -413,31 +418,33 @@ let ResolveIssues= function ResolveIssues(params,client){
 				ansjson["code"]=-1;
 				reject(ansjson);
 			}
-			else
-			{
-				if(result==null)
-				{
+			else{
+				if(result==null){
 					ansjson= {};
 					ansjson["code"]=-2;
 					reject(ansjson);
 				}
-				else
-				{
+				else{
 					logsofitem=result["logs"];
 					currentissuesofitem=result["currentissues"];
+
 					console.log(logsofitem)
 					console.log("ADADADA")
 
+					
+					
 					//Updations
-					for(var ii=0;ii<currentissuesofitem.length;ii++)
-					{
+					for(var ii=0;ii<currentissuesofitem.length;ii++){
 						updatedissue=currentissuesofitem[ii];
+						console.log(currentissuesofitem[ii]);
 						updatedissue["resolveddate"]= new Date();
 						updatedissue["engineer"]= params["emailid"];
 						logsofitem.push(updatedissue);
 					}
 					currentissuesofitem=[];
 					
+					// var extra={_id=new mongo.ObjectID,reporteddate: new Date(), resolveddate: new Date(), urgent:0,engineer:params['emailid'],problemfaced:params['report']};
+					// logsofitem.push(extra);
 					// console.log(logsofitem)
 					// console.log(currentissuesofitem)
 					var mongo = require('mongodb');
@@ -519,16 +526,13 @@ let GetLogs= function GetLogs(params,client){
 				ansjson["code"]=-1;
 				reject(ansjson);
 			}
-			else
-			{
-				if(result==null)
-				{
+			else{
+				if(result==null){
 					ansjson= {};
 					ansjson["code"]=-2;
 					reject(ansjson);
 				}
-				else
-				{
+				else{
 					// console.log(result);
 					logss=result["logs"];
 					resolve({code:1,information:"Giving Logs of the given itemID",data:logss});
@@ -600,8 +604,7 @@ let GetItem= function GetItem(params,client){
 				ansjson["code"]=-1;
 				reject(ansjson);
 			}
-			else
-			{
+			else{
 				if(result==null)
 				{
 					ansjson= {};
@@ -673,10 +676,8 @@ let Login= function Login(params,client){
 				ansjson["code"]=-1;
 				reject(ansjson);
 			}
-			else
-			{
-				if(result==null)
-				{
+			else{
+				if(result==null){
 					userparams={};
 					userparams["emailid"]=params["emailid"];
 					userparams["name"]=params["name"];

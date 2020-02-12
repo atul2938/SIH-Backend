@@ -91,7 +91,7 @@ form {
 
 
 
-p{
+{
 	font-size: 30px;
 	color: white;
 	text-align: center;
@@ -111,10 +111,8 @@ p{
   </head>
   <body>
     <h1><br>Airport Maintenance Services </h1>
-    <p><br>Report an Issue</p>
     <IMG STYLE="position:absolute; TOP:40px; LEFT:340px; WIDTH:100px; HEIGHT:120px" SRC="AMSlogo-05.png">
 
-    <form>
     <form>
 	  Email-id:
 	  <input type="text" id="id1" name="emailid">
@@ -122,14 +120,8 @@ p{
 	  S/N:
 	  <input type="text" id="id2" name="sn">
 	  <br>
-	  Last Repaired:
-	  <input type="text" id="id4" name="lastrepaired">
-	  <br>
 	  Next Periodic Repair:
 	  <input type="text" id="id5" name="nextperiodicrepair">
-	  <br>
-	  Logs:
-	  <input type="text" id="id6" name="logs">
 	  <br>
 	  Name:
 	  <input type="text" id="id7" name="name">
@@ -148,18 +140,15 @@ p{
 
       var x1= document.getElementById("id1").value;
    	var x2= document.getElementById("id2").value;
-   	var x3= document.getElementById("id3").value;
-   	var x4= document.getElementById("id4").value;
    	var x5= document.getElementById("id5").value;
-   	var x6= document.getElementById("id6").value;
    	var x7= document.getElementById("id7").value;
 
       var xhr = new XMLHttpRequest();
             xhr.open('POST', '/insertitem');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send('emailid='+x1+"&sn="+x2+"&lastrepaired="+x4+"&nextperiodicrepair="+x5+"&logs="+x6+"&name="+x7);
+            xhr.send('emailid='+x1+"&sn="+x2+"&nextperiodicrepair="+x5+"&name="+x7);
 
-            alert("Successfully Submitted");  
+            alert("Successfully Submitted. Please check your mail for QR Code");  
     }
     </script>
   </form>
